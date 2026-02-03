@@ -63,8 +63,8 @@
         #q_chick { left: 5%; }
         #q_rabbit { left: 20%; }
         #q_dog { left: 40%; height: 70px; } /* 狗大一點點 */
-        #q_sparrow { right: 20%; }
-        #q_cat { right: 5%; }
+        #q_sparrow { right: 20%; } /* 麻雀小一點點 */
+        #q_cat { right: 5%; }} /* 狗大一點點 */
 
         /* 全體跳動動畫 */
         @keyframes allJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
@@ -141,7 +141,7 @@
 </div>
 
 <script>
-    const defaultFoods = ["海底撈", "義大利麵", "韓式炸雞", "石鍋拌飯", "麻辣燙", "鹽酥雞", "車輪餅", "銅鑼燒", "牛肉麵", "日式蛋包飯"];
+    const defaultFoods = ["海底撈", "義大利麵", "韓式炸雞", "石鍋拌飯", "麻辣燙", "鹽酥雞", "車輪餅", "銅鑼燒", "牛肉麵", "日式蛋包飯", "拉麵", "火鍋", "炸物", "滷味", "便當", "來點飲料", "蔥抓餅", "鬆餅", "越南料理", "早午餐", "永和豆漿", "炒米粉", "滷肉飯", "咖哩飯", "飯捲", "關東煮", "微波食品"];
     let foods = JSON.parse(localStorage.getItem('myFoodList')) || defaultFoods;
 
     const notes = [
