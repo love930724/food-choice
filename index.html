@@ -6,6 +6,7 @@
     <title>食光選選樂</title>
     <style>
         :root {
+            /* 依照需求修改色碼 */
             --main-blue: #AFDDFF;
             --main-pink: #E06B80;
             --main-yellow: #FCF259;
@@ -18,7 +19,7 @@
             font-family: "Microsoft JhengHei", sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* 保持容器在中間 */
             min-height: 100vh;
             margin: 0;
             color: var(--text-dark);
@@ -26,65 +27,73 @@
             position: relative;
         }
 
-        /* 雲朵動畫 */
+        /* 增加雲朵數量 */
         .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.8; z-index: -1; }
         .cloud::after, .cloud::before { content: ''; position: absolute; background: white; border-radius: 50%; }
+        
         .cloud1 { width: 160px; height: 65px; top: 10%; animation: moveClouds 20s linear infinite; }
         .cloud1::after { width: 75px; height: 75px; top: -35px; left: 25px; }
         .cloud1::before { width: 65px; height: 65px; top: -25px; left: 65px; }
+        
         .cloud2 { width: 220px; height: 90px; top: 25%; animation: moveClouds 30s linear infinite; animation-delay: -5s; }
         .cloud2::after { width: 100px; height: 100px; top: -50px; left: 35px; }
         .cloud2::before { width: 80px; height: 80px; top: -35px; left: 85px; }
+
+        .cloud3 { width: 120px; height: 50px; top: 40%; animation: moveClouds 25s linear infinite; animation-delay: -10s; opacity: 0.6; }
+        .cloud3::after { width: 60px; height: 60px; top: -30px; left: 15px; }
+        .cloud3::before { width: 50px; height: 50px; top: -20px; left: 50px; }
+
+        .cloud4 { width: 180px; height: 70px; top: 5%; animation: moveClouds 35s linear infinite; animation-delay: -15s; }
+        .cloud4::after { width: 80px; height: 80px; top: -40px; left: 30px; }
+
         @keyframes moveClouds { from { transform: translateX(-150%); } to { transform: translateX(100vw); } }
 
         /* 草地 */
         .grass { 
-            position: absolute; bottom: 0; width: 100%; height: 140px; 
+            position: absolute; bottom: 0; width: 100%; height: 160px; 
             background: var(--main-green); z-index: -1; 
             border-top: 8px solid #b2d68a;
             border-top-left-radius: 50% 30px;
             border-top-right-radius: 50% 30px;
         }
 
-        /* 動物們的通用樣式 */
+        /* 動物大小改 200 */
         .animal {
             position: absolute;
-            height: 180px; /* 妳要求的大一點 */
+            height: 200px; 
             width: auto;
             z-index: 0;
             transition: transform 0.1s;
             filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.1));
         }
 
-        /* 重新分配草地動物位置，避開中央盒子 */
-#q_chick { left: 3%; bottom: 30px; }
-#q_rabbit { left: 18%; bottom: 30px; }
-#q_cat { left: 30%; bottom: 30px; } /* 貓咪往左移，閃開盒子 */
-#q_dog { right: 5%; bottom: 30px; height: 170px; } /* 狗狗要在最右邊當守護者 */
+        /* 重新平衡大動物的位置 */
+        #q_chick { left: 2%; bottom: 40px; }
+        #q_rabbit { left: 18%; bottom: 40px; }
+        #q_cat { right: 18%; bottom: 40px; } 
+        #q_dog { right: 2%; bottom: 40px; height: 220px; } /* 狗再大一點點 */
 
-/* 麻雀保持在天上飛 */
-#q_sparrow {
-    right: 12%;
-    top: 12%;
-    height: 100px; /* 天上的麻雀也變大一點 */
-    animation: birdFly 4s ease-in-out infinite;
-    z-index: 0;
-}
+        /* 麻雀天際線 */
+        #q_sparrow {
+            right: 15%;
+            top: 15%;
+            height: 180px; /* 麻雀也變大 */
+            animation: birdFly 4s ease-in-out infinite;
+        }
 
         @keyframes birdFly {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-15px) rotate(5deg); }
         }
 
-        /* 點擊時的全體跳動動畫 */
         @keyframes allJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
         .jumping { animation: allJump 0.4s ease-out; }
 
-        /* 容器調整 */
+        /* 中間的選選樂容器，保持在中央 */
         .container {
             background: white; width: 85%; max-width: 340px; padding: 25px; border-radius: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; border: 5px solid var(--main-yellow); 
-            z-index: 1; margin-bottom: 50px; /* 往上提一點 */
+            z-index: 1;
         }
 
         #result-box {
@@ -93,12 +102,12 @@
             border: 2px dashed var(--main-pink); padding: 10px;
         }
 
-        .food-name { font-size: 1.5rem; font-weight: bold; color: #ff6b6b; line-height: 1.2; }
+        .food-name { font-size: 1.6rem; font-weight: bold; color: var(--main-pink); line-height: 1.2; }
         .note-text { font-size: 0.85rem; color: #888; margin-top: 8px; }
 
         .btn-main {
             background: var(--main-pink); color: white; border: none; padding: 15px;
-            border-radius: 50px; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 0px #e08ba9;
+            border-radius: 50px; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 0px #b04e60;
             width: 100%; margin-bottom: 15px; font-weight: bold;
         }
         .btn-main:active { transform: translateY(4px); box-shadow: none; }
@@ -108,13 +117,13 @@
         .btn-add { background: var(--main-yellow); border: none; border-radius: 12px; padding: 0 15px; cursor: pointer; }
 
         .btn-reset { background: none; border: 1px solid #ddd; color: #bbb; padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; margin-top: 15px; }
-
         .list-info { font-size: 0.8rem; margin-top: 20px; color: #999; text-align: left; background: #fafafa; padding: 12px; border-radius: 15px; max-height: 70px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
 <div class="cloud cloud1"></div><div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div><div class="cloud cloud4"></div>
 <div class="grass"></div>
 
 <img src="q_chick.png" id="q_chick" class="animal">
@@ -139,7 +148,9 @@
 </div>
 
 <script>
+    /* 依照文禎需求修改的完整食物清單 */
     const defaultFoods = ["海底撈", "義大利麵", "韓式炸雞", "石鍋拌飯", "麻辣燙", "鹽酥雞", "車輪餅", "銅鑼燒", "牛肉麵", "日式蛋包飯", "拉麵", "火鍋", "炸物", "滷味", "便當", "來點飲料", "蔥抓餅", "鬆餅", "越南料理", "早午餐", "永和豆漿", "炒米粉", "滷肉飯", "咖哩飯", "飯捲", "關東煮", "微波食品"];
+    
     let foods = JSON.parse(localStorage.getItem('myFoodList')) || defaultFoods;
 
     const notes = [
@@ -198,4 +209,3 @@
 </script>
 </body>
 </html>
-
