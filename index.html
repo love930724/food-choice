@@ -49,26 +49,27 @@
         /* 動物們的通用樣式 */
         .animal {
             position: absolute;
-            height: 120px; /* 妳要求的大一點 */
+            height: 180px; /* 妳要求的大一點 */
             width: auto;
             z-index: 0;
             transition: transform 0.1s;
             filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.1));
         }
 
-        /* 重新分配位置 */
-        #q_chick { left: 5%; bottom: 35px; }
-        #q_rabbit { left: 22%; bottom: 35px; }
-        #q_cat { left: 40%; bottom: 35px; }
-        #q_dog { right: 8%; bottom: 35px; height: 130px; } /* 狗大一點且在右邊 */
+        /* 重新分配草地動物位置，避開中央盒子 */
+#q_chick { left: 3%; bottom: 30px; }
+#q_rabbit { left: 18%; bottom: 30px; }
+#q_cat { left: 30%; bottom: 30px; } /* 貓咪往左移，閃開盒子 */
+#q_dog { right: 5%; bottom: 30px; height: 170px; } /* 狗狗要在最右邊當守護者 */
 
-        /* 麻雀飛上天 */
-        #q_sparrow {
-            right: 15%;
-            top: 15%;
-            height: 80px;
-            animation: birdFly 4s ease-in-out infinite;
-        }
+/* 麻雀保持在天上飛 */
+#q_sparrow {
+    right: 12%;
+    top: 12%;
+    height: 100px; /* 天上的麻雀也變大一點 */
+    animation: birdFly 4s ease-in-out infinite;
+    z-index: 0;
+}
 
         @keyframes birdFly {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -197,3 +198,4 @@
 </script>
 </body>
 </html>
+
