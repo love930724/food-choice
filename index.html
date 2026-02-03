@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食光選選樂</title>
+    <style>
+        /* 妳挑選的粉嫩配色組合 */
+        :root {
+            --main-blue: #AFDDFF;   /* 粉藍天空背景 */
+            --main-pink: #E06B80;   /* 粉紅按鈕 */
+            --main-yellow: #FCF259; /* 奶油黃邊框，雲朵改白色 */
+            --main-green: #C5E99B;  /* 草地綠 */
+            --text-dark: #555;
+        }
+
+        body {
+            background-color: var(--main-blue); /* 粉藍色天空 */
+            font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-dark);
+            overflow: hidden; /* 確保背景動畫不會產生捲軸 */
+            position: relative; /* 為了定位雲朵和草地 */
+        }
+
+        /* 雲朵樣式 */
+        .cloud {
+            position: absolute;
+            background: white; /* 雲朵改為白色 */
+            border-radius: 50px;
+            opacity: 0.8;
+            z-index: -1; /* 讓雲在視窗最後面 */
+        }
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+        /* 調整雲朵大小 */
+        .cloud1 {
+            width: 150px; height: 60px; top: 10%; animation: moveClouds 18s linear infinite;
+        }
+        .cloud1::after { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .cloud1::before { width: 60px; height: 60px; top: -25px; left: 60px; }
+
+        .cloud2 {
+            width: 200px; height: 80px; top: 30%; animation: moveClouds 28s linear infinite; animation-delay: -5s;
+        }
+        .cloud2::after { width: 90px; height: 90px; top: -45px; left: 30px; }
+        .cloud2::before { width: 70px; height: 70px; top: -30px; left: 80px; }
+
+        .cloud3 {
+            width: 120px; height: 50px; top: 70%; animation: moveClouds 22s linear infinite; animation-delay: -10s;
+        }
+        .cloud3::after { width: 60px; height: 60px; top: -30px; left: 15px; }
+        .cloud3::before { width: 50px; height: 50px; top: -20px; left: 50px; }
+
+
+        /* 雲朵飄動動畫 */
+        @keyframes moveClouds {
+            from { transform: translateX(-150%); } /* 從左邊完全移出 */
+            to { transform: translateX(100vw); }   /* 到右邊完全移出 */
+        }
+
+        /* 草地樣式 */
+        .grass {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px; /* 草地高度 */
+            background-color: var(--main-green); /* 草地綠 */
+            z-index: -1;
+            border-top-left-radius: 50% 50px; /* 做出圓弧草地邊緣 */
+            border-top-right-radius: 50% 50px;
+        }
+
+        /* 小雞樣式 */
+        #chick {
+            font-size: 5rem; /* 小雞大小 */
+            position: absolute;
+            left: 10%; /* 調整位置 */
+            bottom: 50px; /* 位於草地上方 */
+            z-index: 0; /* 在雲朵前面，在容器後面 */
+            transform: translateY(0); /* 初始位置 */
+            transition: transform 0.1s ease-out; /* 平滑跳動 */
+        }
+
+        /* 小雞跳動動畫 */
+        @keyframes chickJump {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-30px); } /* 跳高 */
+            100% { transform: translateY(0); }
+        }
+        .chick-jumping {
+            animation: chickJump 0.4s ease-out; /* 跳動速度 */
+        }
+
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 350px;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 5px solid var(--main-yellow);
+            z-index: 1; /* 確保容器在雲朵和草地之上 */
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        #result-box {
+            background-color: #fdfdfd;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 2px dashed var(--main-pink);
+            padding: 10px;
+        }
+
+        .food-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .note-text {
+            font-size: 0.85rem;
+            font-weight: normal;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        .btn-main {
+            background-color: var(--main-pink);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0px #e08ba9;
+            width: 100%;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .btn-main:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .input-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--main-blue);
+            border-radius: 12px;
+            outline: none;
+        }
+
+        .btn-add {
+            background-color: var(--main-yellow);
+            border: none;
+            border-radius: 12px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+
+        .btn-add:hover { background-color: #ffc985; }
+
+        .list-info {
+            font-size: 0.8rem;
+            margin-top: 20px;
+            color: #aaa;
+            text-align: left;
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 10px;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<div class="grass"></div>
+
+<span id="chick">🐥</span>
+
+<div class="container">
+    <h1>🍴 食光選選樂</h1>
+    <p class="subtitle">今天不知道吃什麼嗎？<br>我們一起來選擇吧！</p>
+    
+    <div id="result-box">
+        <span class="food-name" id="display-food">點擊下方按鈕</span>
+        <span class="note-text" id="display-note"></span>
+    </div>
+
+    <button class="btn-main" onclick="pickFood()">幫我決定！</button>
+
+    <div class="input-group">
+        <input type="text" id="foodInput" placeholder="想吃的新花樣...">
+        <button class="btn-add" onclick="addFood()">➕</button>
+    </div>
+
+    <div class="list-info">
+        目前名單：<span id="foodDisplay">載入中...</span>
+    </div>
+</div>
+
+<script>
+    // 妳要求的擴充食物庫
+    let foods = [
+        "海底撈", "義大利麵", "韓式炸雞", "石鍋拌飯", "舒芙蕾鬆餅",
+        "麻辣燙", "鹽酥雞", "脆皮車輪餅", "紅豆銅鑼燒", "牛肉麵",
+        "日式蛋包飯", "雞肉溫沙拉", "蚵仔煎", "熱滷味", "滷肉飯",
+        "珍珠奶茶配雞排", "壽司", "燒肉"
+    ];
+
+    // 溫暖的推薦語陣列
+    const notes = [
+        "今天在幼兒園辛苦了，吃點好吃的補體力 🧸",
+        "這家感覺吃完會心情大好喔！",
+        "生活很難，但決定午餐可以很簡單！ ✨",
+        "吃完這餐，下午又是活龍一條！",
+        "體重是明天的煩惱，美味是當下的幸福 🍦",
+        "帶小孩很耗體力，這餐一定要吃飽飽！",
+        "猶豫不決嗎？這就是上天的安排，吃就對了 😋",
+        "跟姐妹一起吃，開心加倍！"
+    ];
+
+    // 更新顯示的食物列表
+    function updateDisplay() {
+        document.getElementById('foodDisplay').innerText = foods.join("、 "); // 用頓號分隔
+    }
+    updateDisplay(); // 網頁載入時先更新一次
+
+    // 隨機抽籤邏輯
+    function pickFood() {
+        const foodEl = document.getElementById('display-food');
+        const noteEl = document.getElementById('display-note');
+        const chickEl = document.getElementById('chick'); // 取得小雞元素
+        let count = 0;
+
+        noteEl.innerText = ""; // 抽籤時先清空推薦語
+        chickEl.classList.remove('chick-jumping'); // 確保每次點擊前先移除跳動class
+
+        // 小雞跳動動畫
+        void chickEl.offsetWidth; // 觸發重新渲染，確保動畫每次都執行
+        chickEl.classList.add('chick-jumping');
+
+        // 跑馬燈跳動效果
+        const timer = setInterval(() => {
+            const tempIndex = Math.floor(Math.random() * foods.length);
+            foodEl.innerText = foods[tempIndex];
+            count++;
+
+            if (count > 15) { // 跳動次數增加，動畫感更強
+                clearInterval(timer);
+
+                // 決定最終結果
+                const finalFood = foods[Math.floor(Math.random() * foods.length)];
+                const finalNote = notes[Math.floor(Math.random() * notes.length)];
+
+                foodEl.innerText = "✨ " + finalFood + " ✨";
+                noteEl.innerText = finalNote;
+            }
+        }, 60); // 每 0.06 秒換一個名字，更快速的抽籤感
+    }
+
+    // 新增食物邏輯
+    function addFood() {
+        const input = document.getElementById('foodInput');
+        const value = input.value.trim();
+
+        if (value && !foods.includes(value)) { // 檢查是否已存在
+            foods.push(value);
+            updateDisplay();
+            input.value = "";
+            document.getElementById('display-food').innerText = "已加入名單！";
+            document.getElementById('display-note').innerText = "「" + value + "」看起來也很好吃～";
+        } else if (value && foods.includes(value)) {
+             document.getElementById('display-food').innerText = "這項已經在名單裡囉！";
+             document.getElementById('display-note').innerText = "";
+        }
+    }
+</script>
+
+</body>
+</html>
